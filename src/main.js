@@ -13,18 +13,18 @@ footerContainer.innerHTML = Footer();
 // Basic router
 const routes = {
     '/': '<h1>Home Page</h1>',
-    '/shop': Shop(),
-    '/cart': Cart(),
+    '/shop': Shop,
+    '/cart': Cart,
     '/admin': '<h1>Admin Page</h1>'
 };
 
 const navigate = async (path) => {
     window.history.pushState({}, path, window.location.origin + path);
-    const route = routes[path];
+    const route = routes[path] || routes['/'];
     if (typeof route === 'function') {
         mainContainer.innerHTML = await route();
     } else {
-        mainContainer.innerHTML = route || '<h1>404 Not Found</h1>';
+        mainContainer.innerHTML = route;
     }
 };
 
@@ -101,12 +101,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     });
 
-    const route = routes[window.location.pathname];
-    if (typeof route === 'function') {
-        mainContainer.innerHTML = await route();
-    } else {
-        mainContainer.innerHTML = route || '<h1>404 Not Found</h1>';
-    }
+    navigate(window.location.pathname);
 });
 
 const mobileMenuButton = document.querySelector('.mobile-menu-button');
