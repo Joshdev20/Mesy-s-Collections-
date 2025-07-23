@@ -1,5 +1,6 @@
 import Header from './components/Header.js';
 import Footer from './components/Footer.js';
+import Home from './pages/Home.js';
 import Shop from './pages/Shop.js';
 import Cart from './pages/Cart.js';
 
@@ -12,7 +13,7 @@ footerContainer.innerHTML = Footer();
 
 // Basic router
 const routes = {
-    '/': '<h1>Home Page</h1>',
+    '/': Home,
     '/shop': Shop,
     '/cart': Cart,
     '/admin': '<h1>Admin Page</h1>'
@@ -29,11 +30,11 @@ const navigate = async (path) => {
 };
 
 window.onpopstate = async () => {
-    const route = routes[window.location.pathname];
+    const route = routes[window.location.pathname] || routes['/'];
     if (typeof route === 'function') {
         mainContainer.innerHTML = await route();
     } else {
-        mainContainer.innerHTML = route || '<h1>404 Not Found</h1>';
+        mainContainer.innerHTML = route;
     }
 };
 
